@@ -1,18 +1,22 @@
 ﻿var JunValidator = (function () {
+
+    "use strict";
+
     var defaultOption = {
         Regs: {
-            email: '^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$',
-            username: '^[a-zA-Z][a-zA-Z0-9_]{4,15}$',
-            fixedTelephone_cn: '^\d{3}-\d{8}|\d{4}-\d{7}$',
-            qq: '^[1-9][0-9]{4,}$',
-            zipcode_cn: '^[1-9]\d{5}(?!\d)$',
-            idcard: '(^\d{15}$)|(\d{17}(?:\d|x|X)$)',
-            ip: '^\d+\.\d+\.\d+\.\d+$'
+            email: /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
+            username: /^[a-zA-Z][a-zA-Z0-9_]{4,15}$/,
+            fixedTelephone_cn: /^\d{3}-\d{8}|\d{4}-\d{7}$/,
+            qq: /^[1-9][0-9]{4,}$/,
+            zipcode_cn: /^[1-9]\d{5}(?!\d)$/,
+            idcard: /(^\d{15}$)|(\d{17}(?:\d|x|X)$)/,
+            ip: /^\d+\.\d+\.\d+\.\d+$/
         },
         elements: [],
         blurAfter: function () { },
         formid: "",
         checkAllObj: {},
+        firstCheck: true
     }
     var Validator = function (option) {
         this.option = this.extend(true, {}, defaultOption, option);
@@ -37,7 +41,7 @@
         },
         checkAllByCheckObject: function () {
             var checkAllObj = this.option.checkAllObj;
-            for (item in checkAllObj) {
+            for (var item in checkAllObj) {
                 if (!checkAllObj[item]) return false;
             }
             return true;
@@ -65,14 +69,18 @@
                 Reg,
                 msg,
                 id = element.id,
+                isNotEmpty = false,
                 type = element.type.toLowerCase();
 
             //没有empty属性，或属性值为非 "false" 的都默认为true
             canEmpty = canEmpty ? !(canEmpty === "false") : true;
             type = type || element.tagName.toLowerCase();
+            if (value)
+                value = value.trim();
 
             switch (type) {
                 case "text":
+                case "textarea":
                     text_check();
                     break;
                 case "checkbox":
@@ -88,8 +96,15 @@
             }
 
             function text_check() {
-                if (reg)
-                    Reg = new RegExp(Regs[reg]);
+                if (reg) {
+                    var tmepReg = Regs[reg];
+                    try {
+                        Reg = (tmepReg instanceof RegExp) ? tmepReg : new RegExp(tmepReg);
+                    }
+                    catch (e) {
+                        self.error_log("RegExp error=>" + e.message, id);
+                    }
+                }
                 if (!reg || !Reg)
                     self.error_log("lose reg.", id);
                 if (!emptyMsg && !canEmpty)
@@ -116,6 +131,7 @@
                         msg = emptyMsg;
                     }
                 }
+                isNotEmpty = value.trim() != "";
             }
 
             function checkbox_check() {
@@ -129,6 +145,7 @@
                     checkOk = true;
                     msg = "";
                 }
+                isNotEmpty = element.checked;
             }
 
             function password_check() {
@@ -155,8 +172,9 @@
                     self.error_log("lose emptyMsg.", id);
                 if (defaultvalue === null && !canEmpty)
                     self.error_log("lose defaultvalue.", id)
+                checkOk = element.value != "" && element.value !== defaultvalue;
+                isNotEmpty = checkOk;
                 if (!canEmpty) {
-                    checkOk = element.value != "" && element.value !== defaultvalue;
                     msg = checkOk ? "" : emptyMsg;
                 }
                 else {
@@ -165,7 +183,8 @@
                 }
             }
 
-            return { "checkOk": checkOk, "msg": msg };
+            return { "checkOk": checkOk, "msg": msg, "isNotEmpty": isNotEmpty };
+
         },
         addBlurEvent: function () {
             var self = this;
@@ -184,15 +203,19 @@
             }
         },
         initCheck: function () {
-            this.checkAll();
+            this.checkAll(this.option.firstCheck);
         },
-        checkAll: function () {
+        checkAll: function (check) {
             var self = this;
             var elements = self.option.elements,
+                blurAfter = self.option.blurAfter,
                 checkAllObj = self.option.checkAllObj;
             for (var i = 0; elements[i]; i++) {
                 var element = elements[i];
                 var returnObj = self.basecheck(element);
+                if (check && returnObj.isNotEmpty) {
+                    blurAfter(element, returnObj);
+                }
                 checkAllObj[element.id] = returnObj.checkOk;
             }
             return this.checkAllByCheckObject();

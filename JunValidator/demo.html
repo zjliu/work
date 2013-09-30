@@ -1,11 +1,22 @@
 ﻿<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 <head>
     <title>JunValidator.js使用说明</title>
     <style>
-        * { margin: 0; padding: 0; }
-        html, body { width: 100%; height: 100%; }
-        body { padding-top: 20px; padding-left: 20px; }
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            padding-top: 20px;
+            padding-left: 20px;
+        }
     </style>
 </head>
 <body>
@@ -14,7 +25,7 @@
             <tr>
                 <td style="width: 100px;">name:</td>
                 <td>
-                    <input value="123" class="need" type="text" id="name" name="name" empty="false" emptymsg="name is empty" illleagle="name is illLeagle" reg="username" />
+                    <input value="d123d" class="need" type="text" id="name" name="name" empty="false" emptymsg="name is empty" illleagle="name is illLeagle" reg="username" />
                 </td>
             </tr>
             <tr>
@@ -25,7 +36,7 @@
             <tr>
                 <td>isboy:</td>
                 <td>
-                    <input class="need" type="checkbox" id="isboy" name="isboy" empty="false" emptymsg="this checkbox need checked" />
+                    <input class="need" type="checkbox" id="isboy" checked="checked" name="isboy" empty="false" emptymsg="this checkbox need checked" />
                     <input class="need" type="checkbox" id="Checkbox1" name="isboy" empty="false" emptymsg="this checkbox need checked" />
                     <input class="need" type="checkbox" id="Checkbox2" name="isboy" empty="false" emptymsg="this checkbox need checked" />
                     <input class="need" type="checkbox" id="Checkbox3" name="isboy" empty="false" emptymsg="this checkbox need checked" />
@@ -34,13 +45,13 @@
             <tr>
                 <td>pass:</td>
                 <td>
-                    <input class="need" type="password" id="pass" name="pass" reg="pass" empty="false" emptymsg="password is needed" illleagle="password is illleagle" />
+                    <input class="need" value="1233456" type="password" id="pass" name="pass" reg="pass" empty="false" emptymsg="password is needed" illleagle="password is illleagle" />
                 </td>
             </tr>
             <tr>
                 <td>repass:</td>
                 <td>
-                    <input class="need" type="password" id="repass" name="repass" reg="pass" empty="false" emptymsg="repassword is needed" illleagle="repassword is illleagle" for="pass" unmatchmsg="repassword need equal pass" /></td>
+                    <input class="need" value="12343243" type="password" id="repass" name="repass" reg="pass" empty="false" emptymsg="repassword is needed" illleagle="repassword is illleagle" for="pass" unmatchmsg="repassword need equal pass" /></td>
             </tr>
             <tr>
                 <td>select</td>
@@ -48,7 +59,7 @@
                     <select class="need" id="s" name="s" empty="false" defaultvalue="0.0" emptymsg="selector need selected">
                         <option value="0.0">please select</option>
                         <optgroup label="1.x">
-                            <option value="1.1">1.1</option>
+                            <option selected="selected" value="1.1">1.1</option>
                             <option value="1.2">1.1</option>
                             <option value="1.3">1.2</option>
                             <option value="1.4">1.3</option>
@@ -62,6 +73,14 @@
                             <option value="2.5">2.4</option>
                         </optgroup>
                     </select>
+                </td>
+            </tr>
+            <tr>
+                <td>textarea</td>
+                <td>
+                    <textarea id="area" name="area" class="need" reg="test" empty="false" emptymsg="textarea is needed" illleagle="textarea is illleagle">
+                    fdsfsdfs
+                    </textarea>
                 </td>
             </tr>
         </table>
@@ -90,8 +109,10 @@
                     示例：
 
                         var Regs = {                                      
-                            "tel": '^\d{11}$',                            
-                            "pass": '^[a-zA-Z0-9]{6,12}$'                 
+                            "test": /^liu$/,
+                            "tel": /^\d{11}$/,
+                            "pass": /^[a-zA-Z0-9]{6,12}$/,
+                            "area": /^.+$/
                         };                                                
                                                                           
                         var elements = document.querySelectorAll(".need");
@@ -100,19 +121,19 @@
                             "elements": elements,
                             "blurAfter": function (element, data) {
 
-                                }
+                             }
                             },
                             "formid": "myform"
                         });
-                    (1) Regs为 添加的正则（可以用JunValidator中写好的正则），注意不要加 //
+                    (1) Regs为 添加的正则（可以用JunValidator中写好的正则），注意 是正则对象
                     原有正则：
-                            email: '^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$',
-                            username: '^[a-zA-Z][a-zA-Z0-9_]{4,15}$',
-                            fixedTelephone_cn: '^\d{3}-\d{8}|\d{4}-\d{7}$',
-                            qq: '^[1-9][0-9]{4,}$',
-                            zipcode_cn: '^[1-9]\d{5}(?!\d)$',
-                            idcard: '(^\d{15}$)|(\d{17}(?:\d|x|X)$)',
-                            ip: '^\d+\.\d+\.\d+\.\d+$'                                                 
+                        email: /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
+                        username: /^[a-zA-Z][a-zA-Z0-9_]{4,15}$/,
+                        fixedTelephone_cn: /^\d{3}-\d{8}|\d{4}-\d{7}$/,
+                        qq: /^[1-9][0-9]{4,}$/,
+                        zipcode_cn: /^[1-9]\d{5}(?!\d)$/,
+                        idcard: /(^\d{15}$)|(\d{17}(?:\d|x|X)$)/,
+                        ip: /^\d+\.\d+\.\d+\.\d+$/                                                 
                    (2) elements 为要验证的所有元素（数组）
                    (3) blurAfter 为鼠标离开表单时触发的事件 
                        element表示触发的表单元素 
@@ -126,13 +147,14 @@
     </div>
 </body>
 </html>
-<script src="JunValidator.js"></script>
+<script src="Js/JunValidator.js"></script>
 <script>
     var Regs = {
-        "tel": '^\\d{11}$',
-        "pass": '^[a-zA-Z0-9]{6,12}$'
+        "test": /^liu$/,
+        "tel": /^\d{11}$/,
+        "pass": /^[a-zA-Z0-9]{6,12}$/,
+        "area": /^.+$/
     };
-
     var elements = document.querySelectorAll(".need");
     var validator = new JunValidator({
         "Regs": Regs,
@@ -142,7 +164,7 @@
             var span = element.parentNode.querySelector("span");
             if (!imgEl) {
                 imgEl = document.createElement("img");
-                imgEl.src = "reg_ok.png";
+                imgEl.src = "/Img/reg_ok.png";
                 element.parentNode.appendChild(imgEl);
             }
             if (!span) {
@@ -160,7 +182,8 @@
                 span.innerHTML = data.msg;
             }
         },
-        "formid": "myform"
+        "formid": "myform",
+        "firstCheck": false
     });
 
 </script>
