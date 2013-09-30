@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <link href="Css/avgrund.css" rel="stylesheet" />
+    <link href="Css/styles.css" rel="stylesheet" />
+    <style>
+    </style>
+</head>
+<body>
+    <aside id="default-popup" class="avgrund-popup">
+        <h2>That's all, folks</h2>
+        <p>
+            You can hit ESC or click outside to close the modal. Give it a go to see the reverse transition.
+        </p>
+        <p>
+            If you like this you would probably enjoy <a href="http://lab.hakim.se/meny">Meny</a>, <a href="http://lab.hakim.se/reveal-js">reveal.js</a> and <a href="http://lab.hakim.se/scroll-effects">stroll.js</a>.
+        </p>
+        <button onclick="javascript:closeDialog();">Close</button>
+    </aside>
+    <button onclick="javascript:openDialog();">Open Avgrund</button>
+    <div class="avgrund-cover"></div>
+</body>
+</html>
+<script src="Js/jquery-2.0.3.js"></script>
+<script src="Js/avgrund.js"></script>
+<script>
+    //function openDialog() {
+    //    Avgrund.show("#default-popup");
+    //}
+    //function closeDialog() {
+    //    Avgrund.hide();
+    //}
+</script>
+<script>
+
+    function openDialog() {
+        $("body").css({
+            "-webkit-transform": "scale(0.9)"
+        });
+        $("div.avgrund-cover").css({ "visibility": "visible", "opacity": 1 });
+    }
+
+</script>

@@ -1,0 +1,5 @@
+D:\SourceCode\mugeda\mugeda_site\MyWeb\bin\MyWeb.dll
+D:\SourceCode\mugeda\mugeda_site\MyWeb\bin\MyWeb.pdb
+D:\SourceCode\mugeda\mugeda_site\MyWeb\obj\Debug\MyWeb.dll
+D:\SourceCode\mugeda\mugeda_site\MyWeb\obj\Debug\MyWeb.pdb
+D:\SourceCode\mugeda\mugeda_site\MyWeb\obj\Debug\MyWeb.csprojResolveAssemblyReference.cache

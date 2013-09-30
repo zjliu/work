@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style>
+        #test {
+            width: 100px;
+            height: 100px;
+            background: red;
+            position:absolute;
+            top:100px;
+            left:100px;
+        }
+
+        .animate {
+            animation: myfirst 500ms;
+            -moz-animation: myfirst 500ms; /* Firefox */
+            -webkit-animation: myfirst 10000ms; /* Safari and Chrome */
+            -o-animation: myfirst 10000ms; /* Opera */
+        }
+
+        @keyframes myfirst {
+            from {
+                background: red;
+            }
+
+            to {
+                background: yellow;
+            }
+        }
+
+        @-moz-keyframes myfirst /* Firefox */
+        {
+            from {
+                background: red;
+            }
+
+            to {
+                background: yellow;
+            }
+        }
+
+        @-webkit-keyframes myfirst /* Safari and Chrome */
+        {
+            from {
+                background: red;
+                top:100px;
+                left:100px;
+                color:yellow;
+            }
+
+            to {
+                background: yellow;
+                top:500px;
+                left:300px;
+                width:10px;
+                height:10px;
+                color:red;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="test">css animate</div>
+    <input type="button" id="tb" value="animate" />
+</body>
+</html>
+<script>
+    var testEl = document.getElementById("test");
+    document.getElementById("tb").onclick = function () {
+        testEl.className = "animate";
+        setTimeout(function () {
+            testEl.className = "";
+        }, 10000);
+    }
+</script>

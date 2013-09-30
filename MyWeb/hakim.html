@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style>
+        html, body { width: 100%; height: 100%; overflow: hidden; }
+    </style>
+</head>
+<body>
+</body>
+</html>
+<script>
+    var d = document,
+        canvas = d.body.appendChild(d.createElement('canvas')),
+        context = canvas.getContext('2d'),
+        time = 0,
+        w = canvas.width = innerWidth,
+        h = canvas.height = innerHeight,
+        m = Math,
+        cos = m.cos,
+        sin = m.sin,
+        PI = m.PI
+
+    var wx = (w + h) / 2;
+
+    setInterval(function () {
+        canvas.width = canvas.width;
+        time += .1;
+        i = 10000;
+        while (i--) {
+            r = wx * (cos((time + i) * (.05 + (sin(time / 100000) / PI * .2))) / PI);
+            context.fillRect(sin(i) * r + w / 2, cos(i) * r + h / 2, 1.5, 1.5);
+        }
+    }, 16);
+
+</script>

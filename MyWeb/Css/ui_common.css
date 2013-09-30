@@ -1,0 +1,25 @@
+﻿* { margin: 0; padding: 0; font-family: arial; }
+html, body { width: 100%; height: 100%; overflow: hidden; position: relative; }
+body { background-image: url(/Img/bg.png); }
+* { -webkit-tap-highlight-color: rgba(0,0,0,0); }
+li { list-style: none; }
+.absolute { position: absolute; }
+#touchPanel { }
+#touch_canvas_panel { position: absolute; left: 128px; top: 64px; right: 128px; bottom: 100px; overflow: hidden; }
+#touchPanelBox { position: absolute; left: 0; top: 0; right: 0; bottom: 0; z-index: 0; background: #fff; }
+#touchPanel { position: absolute; left: 0; top: 0; right: 0; bottom: 0; }
+    #touchPanel table { width: 100%; height: 100%; }
+        #touchPanel table div { text-align: center; }
+    #touchPanel canvas { width: 640px; height: 480px; background-position: center; background-color: #fff; background-repeat: no-repeat; background-size: 100% 100%; box-shadow: 0px 0px 8px rgba(0,0,0,.3); }
+#touch_menu { }
+#touch_list { }
+.commandTip { font-size: 12px; height: 25px; line-height: 20px; text-align: center; width: 64px; background-size: 0 0; color: #2F2F2F; display: block; }
+#SHAPE_LINE { background-image: url(/Img/Line-icon.png); }
+#touch_tool_cell a, #touch_tool_cell i { display: inline-block; width: 64px; height: 64px; background-repeat: no-repeat; background-position: center; cursor: pointer; }
+#touch_tool { position: absolute; left: 0; width: 128px; top: 64px; bottom: 100px; text-align: center; }
+    #touch_tool a { float: left; }
+#touch_tool_table { display: table; width: 100%; height: 100%; }
+#touch_tool_cell { display: table-cell; vertical-align: middle; }
+.touch_icon a.on { background-image: url(/Img/pushed.png); background-color: transparent; }
+.canvasNormal { cursor: default; background-color: rgb(255, 255, 255); }
+.touch_icon a.on{background-image:url(/Img/pushed.png);background-color:transparent;}	

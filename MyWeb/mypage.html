@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Mugeda - Cloud-based HTML5 Animation</title>
+    <link href="/Css/ui_common.css" rel="stylesheet" />
+    <script src="/Js/aniobject.js"></script>
+    <style>
+        /*#myspan { display: inline-block; width: 0; height: 0; border-top: 15px solid transparent; border-bottom: 15px solid transparent; position: absolute; top: 0; z-index: 5; margin: 3px 0; border-radius: 3px; border-left: 0; border-right: 15px solid #555555; opacity: 0.8; }*/
+        #myspan { display: inline-block; /*
+                  border-left:15px solid rgba(0,0,0,0);
+                  border-bottom:15px solid #555555;
+                  border-top:15px solid #555555;
+                  border-right:15px solid rgba(0,0,0,0); 
+                  */ /*
+                  border-left:15px solid rgba(0,0,0,0);
+                  border-bottom:0;
+                  border-top:15px solid red;
+                  border-right:15px solid rgba(0,0,0,0);
+                  */ border-left: 15px solid rgba(0,0,0,0); border-top: 0; border-bottom: 150px solid red; border-right: 15px solid rgba(0,0,0,0); width: 0px; height: 0px; }
+    </style>
+</head>
+<body>
+    <div id="touchPanel" class="absolute">
+        <div id="touch_canvas_panel">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div id="touch_canvas_box">
+                                <canvas id="canvas" width="640" height="480" class="canvasNormal"></canvas>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="touch_tool">
+            <span id="myspan"></span>
+            <div id="touch_tool_table">
+                <div id="touch_tool_cell" class="touch_icon">
+                    <a>
+                        <i id="SHAPE_LINE"></i>
+                        <span class="commandTip">Line</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div id="touch_list">
+        </div>
+    </div>
+</body>
+</html>
+<script src="Js/Jun.js"></script>
+<script>
+    var aniData = new AniObject();
+
+    function isMobile() {
+        var a = navigator.userAgent.match(/Android/i)
+                || navigator.userAgent.match(/webOS/i)
+                || navigator.userAgent.match(/iPhone/i)
+                || navigator.userAgent.match(/iPad/i)
+                || navigator.userAgent.match(/iPod/i)
+                || navigator.userAgent.match(/BlackBerry/i)
+                || navigator.userAgent.match(/Windows Phone/i);
+        return a ? true : false;
+    }
+
+    var istouch = 'ontouchstart' in window;
+    var eventstart = istouch ? 'touchstart' : 'mousedown';
+    var eventmove = istouch ? 'touchmove' : 'mousemove';
+    var eventend = istouch ? 'touchend' : 'mouseup';
+
+    var UI = (function () {
+        var ui_option = {
+
+        }
+        var MugedaUI = function (option) {
+            this.canvasElement = document.getElementById("canvas");
+            this.option = ui_option;
+            Jun.extend(this.option, option);
+        }
+        MugedaUI.fn = MugedaUI.prototype = {
+            init: function () {
+                this.addCommand();
+                this.addDrawEvent();
+                this.addDocumentEvent();
+            },
+            _drawStart: function (event) {
+                if (this.command && this.command === this.Command.LINE) {
+                }
+                this.drawing = true;
+            },
+            _drawMove: function (event) {
+                var self = this;
+                if (!this.drawing) {
+                    return false;
+                }
+                //self.canvasElement.style.cursor = "move";
+            },
+            _drawEnd: function (event) {
+                if (!this.drawing) {
+                    return false;
+                }
+                delete this.drawing;
+            },
+            addDrawEvent: function () {
+                var self = this,
+                    callback = { 'Start': null, 'Move': null, 'End': null };
+
+                function setEvent(objName) {
+                    ["Start", "Move", "End"].forEach(function (item) {
+                        callback[item] = self["_" + objName + item];
+                    });
+                }
+                setEvent("draw");
+                document.addEventListener(eventstart, callback["Start"]);
+                document.addEventListener(eventmove, callback["Move"]);
+                document.addEventListener(eventend, callback["End"]);
+            },
+            addCommand: function () {
+                var self = this;
+                $("touch_tool", { isId: true }).addEventListener("click", function (e) {
+                    var target = e.target;
+                    if (target.tagName.toLowerCase() == "i") {
+                        target.parentNode.toggleClass("on");
+                        this.command = self.Command.LINE;
+                        self.canvasElement.style.cursor = "crosshair";
+                    }
+                });
+            },
+            addDocumentEvent: function () {
+                document.addEventListener("contextmenu", function (event) {
+                    //event.preventDefault();
+                    return false;
+                });
+            },
+            Command: {
+                LINE: 2007
+            }
+        }
+        return MugedaUI;
+    })();
+    var ui = new UI({});
+    ui.init();
+</script>

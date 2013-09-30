@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style>
+        canvas { border: 1px solid red; }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="400" height="300"></canvas>
+    <svg height="190">
+        <polygon points="100,10 40,180 190,60 10,60 160,180"
+            style="fill: red; stroke: blue; stroke-width: 3; fill-rule: evenodd;" />
+    </svg>
+</body>
+</html>
+<script>
+    var canvas = document.getElementById("canvas"),
+        context = canvas.getContext("2d");
+    var documentEl = document.documentElement;
+    var data = [];
+    var imgEl = document.createElement("img");
+
+    imgEl.onload = function () {
+        context.drawImage(imgEl, 10, 10);
+        var imgData = context.getImageData(10, 10, imgEl.width, imgEl.height);
+        data = imgData.data,
+        imageWidth = imgEl.width,
+        imageHeight = imgEl.height;
+
+        
+
+        var x = 15, y = 20;
+
+        setHtmlColor(x, y);
+
+
+        //for (var i = 0; data[i]; i += 4) {
+        //    var r = data[i],
+        //        g = data[i + 1],
+        //        b = data[i + 2],
+        //        a = data[i + 3];
+        //    var color = 'rgba(' + [r, g, b, a] + ")";
+        //    documentEl.style.backgroundColor = color;
+        //    console.log(color + " " + i);
+        //}
+
+
+
+
+    }
+
+    function setHtmlColor(x, y) {
+        var red = data[((imageWidth * y) + x) * 4];
+        var green = data[((imageWidth * y) + x) * 4 + 1];
+        var blue = data[((imageWidth * y) + x) * 4 + 2];
+        var alpha = data[((imageWidth * y) + x) * 4 + 3];
+
+        var color = 'rgba(' + [red, green, blue, alpha] + ")";
+        //documentEl.style.backgroundColor = color;
+        //console.log(color);
+
+        var img = document.createElement("img");
+        img.src = canvas.toDataURL();
+        img.width = 100;
+        document.querySelector("body").appendChild(img);
+
+    }
+
+    imgEl.src = "/js/colorPicker/images/picker_bar.png";
+
+
+</script>
