@@ -147,7 +147,7 @@
     </div>
 </body>
 </html>
-<script src="Js/JunValidator.js"></script>
+<script src="JunValidator.js"></script>
 <script>
     var Regs = {
         "test": /^liu$/,
@@ -164,7 +164,7 @@
             var span = element.parentNode.querySelector("span");
             if (!imgEl) {
                 imgEl = document.createElement("img");
-                imgEl.src = "/Img/reg_ok.png";
+                imgEl.src = "reg_ok.png";
                 element.parentNode.appendChild(imgEl);
             }
             if (!span) {
@@ -183,7 +183,7 @@
             }
         },
         "formid": "myform",
-        "firstCheck": false
+        "firstCheck": true
     });
 
 </script>
